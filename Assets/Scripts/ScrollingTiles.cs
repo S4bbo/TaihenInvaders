@@ -6,24 +6,35 @@ public class ScrollingTiles : MonoBehaviour
 {
     #region(Variables)
     // Public
-    public MeshRenderer meshRenderer;
+    public Vector3 startPos;
+    public Vector3 currentPos;
+    public Vector3 pointToMoveBack;
 
     // Private
 
     #endregion
 
     #region(Unity Functions)
-    // Use this for initialization
     void Start()
     {
-        meshRenderer = GetComponent<MeshRenderer>();
+        //Get the starting position
+        startPos = this.gameObject.transform.position;
+        pointToMoveBack = new Vector3(0, -10, 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float scrollSpeed = Time.time * 0.5f;
-        meshRenderer.material.mainTextureOffset = new Vector3(0, -scrollSpeed, 0);
+        //Get the current position
+        currentPos = gameObject.transform.position;
+        //Move the background
+        currentPos.y += Time.deltaTime * 1;
+        //Reset back to point other texture ends
+        if(currentPos.y >= 10)
+        {
+            currentPos = pointToMoveBack;
+        }
+        //Set the position to the new current position;
+        gameObject.transform.position = currentPos;
     }
     #endregion
 }
